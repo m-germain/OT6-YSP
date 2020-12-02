@@ -110,11 +110,13 @@ To get a local copy up and running follow these simple example steps.
 
 ### Prerequisites
 
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
+You need Python 3.
+* https://www.python.org/downloads/
+
+You can check your version 
+```
+python3 --version or python --version
+```
 
 ### Installation
 
@@ -123,14 +125,11 @@ USER PYTHON3
    ```sh
    git clone https://github.com/your_username_/Project-Name.git
    ```
-2. User Python 3, check it
-    ```
-    python3 --version or python --version
-    ```
-3. Create a virtual Environement for Python
+2. Install virtualenv
    ```
    pip install virtualenv
    ```
+3. Create the Virtual Environement
     ```
    virtualenv venv
    ```
@@ -138,7 +137,7 @@ USER PYTHON3
     ```
    source venv/bin/activate
    ```
-4. Now, Install requirement.txt
+5. Then, install all requirement.txt
    ```
    pip install requirement.txt
    ```
