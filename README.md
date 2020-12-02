@@ -118,18 +118,29 @@ This is an example of how to list things you need to use the software and how to
 
 ### Installation
 
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
+USER PYTHON3
+1. Clone the repo
    ```sh
    git clone https://github.com/your_username_/Project-Name.git
    ```
-3. Install NPM packages
-   ```sh
-   npm install
+2. User Python 3, check it
+    ```
+    python3 --version or python --version
+    ```
+3. Create a virtual Environement for Python
    ```
-4. Enter your API in `config.js`
-   ```JS
-   const API_KEY = 'ENTER YOUR API';
+   pip install virtualenv
+   ```
+    ```
+   virtualenv venv
+   ```
+4. Enter the Virtual Environement
+    ```
+   source venv/bin/activate
+   ```
+4. Now, Install requirement.txt
+   ```
+   pip install requirement.txt
    ```
 
 
