@@ -141,7 +141,8 @@ USER PYTHON3
    ```
    pip install requirement.txt
    ```
-
+6. If you have any issues displaying the gmap check this link.
+   https://github.com/pbugnion/gmaps/issues/79
 
 
 <!-- USAGE EXAMPLES -->
