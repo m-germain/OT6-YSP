@@ -2,7 +2,6 @@
 #import pandas as pd
 import requests
 import flexpolyline as fp
-import s2sphere as s2
 from vincenty import vincenty as vc
 from math import floor
 import numpy as np
