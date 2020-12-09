@@ -20,12 +20,6 @@ MAX_DIST = 0.1
 def filter_rows(row, minLat, minLong, maxLat, maxLong) :
     return ( (minLat<row['lat']) & (maxLat>row['lat']) & (minLong<row['long']) & (maxLong>row['long']))
     
-    
-
-
-
-def get_distance(ptA, ptB):
-    return vc((ptA.lat().degrees, ptA.lng().degrees),(ptB.lat().degrees,ptB.lng().degrees))
 
 def getPath(departure, arrival): ## pts are (lat , lon)
 #get a route from here API
