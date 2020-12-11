@@ -61,14 +61,14 @@ if __name__ == "__main__":
     ptA = ( 43.409484, 3.687372) ## lat and long of pt A
     ptB = ( 43.409461, 3.687383) ## lat and long of pt B
 
-    '''
+    
     minLat = min(ptA[0], ptB[0])
     minLong = min(ptA[1], ptB[1])
     maxLat = max(ptA[0], ptB[0])
     maxLong  = max(ptA[1], ptB[1])
     iter_csv = pd.read_csv('./privamov/privamov-gps', sep="\t", names=["user", "timestamp", "long", "lat"], nrows=1000, iterator=True, chunksize=10)
     df = pd.concat([chunk[filter_rows(chunk, minLat, minLong, maxLat, maxLong)] for chunk in iter_csv])
-    '''
+    print(df)
     print(getPath(ptA, ptB))
    
     
