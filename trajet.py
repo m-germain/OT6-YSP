@@ -21,7 +21,7 @@ def filter_rows(row, minLat, minLong, maxLat, maxLong) :
     return ( (minLat<row['lat']) & (maxLat>row['lat']) & (minLong<row['long']) & (maxLong>row['long']))
     
 
-def getPath(departure, arrival): ## pts are (lat , lon)
+def getPath(departure, arrival, maxDist): ## pts are (lat , lon)
 #get a route from here API
     route = requests.get("https://router.hereapi.com/v8/routes?transportMode=pedestrian&origin="+str(departure[0])+","+str(departure[1])+"&destination="+str(arrival[0])+","+str(arrival[1])+"&return=polyline&apiKey="+api_key)
     print(route)
@@ -35,9 +35,9 @@ def getPath(departure, arrival): ## pts are (lat , lon)
         ptB = path[i+1+offset]
         dist = vc(ptA, ptB)
         
-        if dist>MAX_DIST:
+        if dist>maxDist:
             #how many pts should we add ?
-            nbpts = floor(dist/MAX_DIST)
+            nbpts = floor(dist/maxDist)
 
             #add intermediate pts
             for j in range(1, nbpts+1):
@@ -69,6 +69,6 @@ if __name__ == "__main__":
     iter_csv = pd.read_csv('./privamov/privamov-gps', sep="\t", names=["user", "timestamp", "long", "lat"], nrows=1000, iterator=True, chunksize=10)
     df = pd.concat([chunk[filter_rows(chunk, minLat, minLong, maxLat, maxLong)] for chunk in iter_csv])
     print(df)
-    print(getPath(ptA, ptB))
+    print(getPath(ptA, ptB, 0.1))
    
     
