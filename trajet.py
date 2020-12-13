@@ -97,7 +97,8 @@ def getToExclude(path, heatmap, threshold, toExclude, maxValue, minSize=None):
         if(size>minSize):
             defExclude.append(cell)
 
-    return defExclude
+    defExclude.sort(key=lambda cell : vc((cell[0],cell[1]),(cell[2], cell[1]))*vc((cell[0],cell[1]),(cell[0],cell[3])))
+    return defExclude[0:20]
 
 def getPathLength(path):
 
@@ -114,25 +115,28 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
     maxValue = heatmap.get_max_value()
     paths = []
     paths.append(getPath(departure, arrival, maxDist))
+    prevExcludes = []
     excludes = getToExclude(paths[0], heatmap, threshold, [], maxValue, minExcludeArea)
-    for i in range(1, 21):
-        if(len(excludes)==0 or len(excludes)>20): ##ether we have a good path or we can not exclude anymore areas
-            if(len(excludes)==0):
+    for i in range(1, 100):
+        if(set(prevExcludes)==set(excludes)): ##ether we have a good path or we can not exclude anymore areas
+            if(len(excludes)<20):
                 print("perfect path")
             else:
-                print("too many excludes")
+                print("we excluded the 20 biggest areas after "+str(i)+" itterations")
             break
         else:
             paths.append(getPath(departure, arrival, maxDist, excludes))
+            prevExcludes = excludes
             excludes = getToExclude(paths[i], heatmap, threshold, excludes, maxValue, minExcludeArea)
 
     firstPathLength = getPathLength(paths[0])
+    print(str(len(paths))+ " itterations to find this path")
     for i in range(1, len(paths)+1):
         ##don't return a path which multiplies the distance by more than 1.5 
         if getPathLength(paths[len(paths) - i])<firstPathLength*1.5:
-            return (heatmap.get_heatmap(), paths[0], paths[len(paths) - i])
+            return (paths[0], paths[len(paths) - i])
 
-    return (heatmap.get_heatmap(), paths[0], paths[0])
+    return (paths[0], paths[0])
 
 
 if __name__ == "__main__":
@@ -140,7 +144,11 @@ if __name__ == "__main__":
 
     ptA = (45.786839, 4.879130)
     ptB = (45.782746, 4.878132)
-    hm, path1, path2 = getBestPath(ptA, ptB, None, 0.5)
+    ptC = (45.764346, 4.863172)
+    path = getBestPath(ptA, ptC, None, 0.5)
+    print(path[0])
+    print(path[1])
+
     
 
    
