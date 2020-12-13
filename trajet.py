@@ -116,15 +116,22 @@ def getPathLength(path):
 
     return length
 
+def getPathScore(path, heatmap):
+    score =0
+    for cell in path:
+        score += heatmap.query_heatmap(cell[0],cell[1])[0]
+    return score
+
 def getBestPath(departure, arrival, minExcludeArea, threshold): 
 
     heatmap = QueryHeatMap()
     maxDist= 0.1
     maxValue = heatmap.get_max_value()
     paths = []
-    paths.append(getPath(departure, arrival, maxDist))
+    firstPath = getPath(departure, arrival, maxDist)
     prevExcludes = []
-    excludes = getToExclude(paths[0], heatmap, threshold, [], maxValue, minExcludeArea)
+    excludes = getToExclude(firstPath, heatmap, threshold, [], maxValue, minExcludeArea)
+    paths.append(firstPath)
     for i in range(1, 100):
         if(set(prevExcludes)==set(excludes)): ##ether we have a good path or we can not exclude anymore areas
             if(len(excludes)<20):
@@ -137,14 +144,16 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
             prevExcludes = excludes.copy()
             excludes = getToExclude(paths[i], heatmap, threshold, excludes, maxValue, minExcludeArea)
 
-    firstPathLength = getPathLength(paths[0])
+    firstPathLength = getPathLength(firstPath)
+
+    paths.sort(key=lambda path : getPathScore(path, heatmap))
     print(str(len(paths))+ " itterations to find this path")
     for i in range(1, len(paths)+1):
         ##don't return a path which multiplies the distance by more than 1.5 
         if getPathLength(paths[len(paths) - i])<firstPathLength*1.5:
-            return (heatmap, paths[0], paths[len(paths) - i])
+            return (heatmap, firstPath, paths[len(paths) - i])
 
-    return (heatmap, paths[0], paths[0])
+    return (heatmap, firstPath, firstPath)
 
 
 if __name__ == "__main__":
