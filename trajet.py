@@ -130,7 +130,7 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
     for i in range(1, len(paths)+1):
         ##don't return a path which multiplies the distance by more than 1.5 
         if getPathLength(paths[len(paths) - i])<firstPathLength*1.5:
-            return (paths[0], paths[i])
+            return (paths[0], paths[len(paths) - i])
 
     return (paths[0], paths[0])
 
@@ -140,7 +140,9 @@ if __name__ == "__main__":
 
     ptA = (45.786839, 4.879130)
     ptB = (45.782746, 4.878132)
-    path = getBestPath(ptA, ptB, None, 0.5)
+    ptC = (45.764346, 4.863172)
+    path = getBestPath(ptA, ptC, None, 0.5)
+    print(path)
 
     
 
