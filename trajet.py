@@ -83,13 +83,14 @@ def getToExclude(path, heatmap, threshold, toExclude, maxValue, minSize=None):
             
     #regroup areas in bigger areas
     offset = 0
-    iRange = range(0, len(toExclude)-1)
-    for i in iRange:
-        newCell = groupCells(toExclude[i-offset], toExclude[i-offset+1])
-        if not (newCell is  None):
-            toExclude[i-offset] = newCell
-            toExclude.pop(i+1-offset)
-            offset+= 1
+
+    for n in range(0,5):
+        for i in range(0, len(toExclude)-1):
+            newCell = groupCells(toExclude[i-offset], toExclude[i-offset+1])
+            if not (newCell is  None):
+                toExclude[i-offset] = newCell
+                toExclude.pop(i+1-offset)
+                offset+= 1
 
     defExclude = []
     for cell in toExclude:
@@ -126,7 +127,7 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
             break
         else:
             paths.append(getPath(departure, arrival, maxDist, excludes))
-            prevExcludes = excludes
+            prevExcludes = excludes.copy()
             excludes = getToExclude(paths[i], heatmap, threshold, excludes, maxValue, minExcludeArea)
 
     firstPathLength = getPathLength(paths[0])
@@ -134,9 +135,9 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
     for i in range(1, len(paths)+1):
         ##don't return a path which multiplies the distance by more than 1.5 
         if getPathLength(paths[len(paths) - i])<firstPathLength*1.5:
-            return (paths[0], paths[len(paths) - i])
+            return (heatmap, paths[0], paths[len(paths) - i])
 
-    return (paths[0], paths[0])
+    return (heatmap, paths[0], paths[0])
 
 
 if __name__ == "__main__":
@@ -146,8 +147,8 @@ if __name__ == "__main__":
     ptB = (45.782746, 4.878132)
     ptC = (45.764346, 4.863172)
     path = getBestPath(ptA, ptC, None, 0.5)
-    print(path[0])
     print(path[1])
+    print(path[2])
 
     
 
