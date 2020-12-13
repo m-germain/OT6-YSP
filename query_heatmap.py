@@ -97,3 +97,6 @@ class QueryHeatMap:
     def get_max_value(self):
         #gruge pour normaliser les valeurs
         return np.max(self.heatmap)
+
+    def get_heatmap(self):
+        return self.heatmap
