@@ -90,3 +90,10 @@ class QueryHeatMap:
         index_lat, index_long = self.lat_long_to_indexs(lat,long)
         lat_min, long_min, lat_max, long_max = self.index_to_cbox(index_lat, index_long)
         return self.heatmap[round(index_lat)][round(index_long)], lat_min, long_min, lat_max, long_max
+
+    def get_cell_size(self):
+        return (self.lat_cell_size, self.long_cell_size)
+    
+    def get_max_value(self):
+        #gruge pour normaliser les valeurs
+        return np.max(self.heatmap)
