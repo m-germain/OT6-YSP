@@ -38,6 +38,7 @@ def getPath(departure, arrival, maxDist, avoid=None):
                 avoidQuery+="|"
         url+=avoidQuery
     route = requests.get(url)
+    print(route)
     path = fp.decode((route.json()["routes"][0]["sections"][0]["polyline"]))
 
     # re-sample the polyline 
@@ -70,6 +71,12 @@ def groupCells(cellA, cellB):
             return(cellB[0], cellA[1], cellA[2], cellA[3])
         elif(cellA[2]==cellB[0]):
             return(cellA[0], cellA[1], cellB[2], cellA[3])
+
+    ##if two cells have an angle in common, we also group them
+    elif( (cellA[1]==cellB[3] and cellA[0]==cellB[2]) or (cellA[3]==cellB[1] and cellA[0]==cellB[2]) 
+    or (cellA[1]==cellB[3] and cellA[2]==cellB[0]) or (cellA[3]==cellB[1] and cellA[2]==cellB[0])):
+        return(min(cellA[0], cellB[0]), min(cellA[1],cellB[1]), max(cellA[2],cellB[2]), max(cellA[3],cellB[3]))
+
     return None
 
 
