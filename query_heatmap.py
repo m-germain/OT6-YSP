@@ -83,8 +83,31 @@ class QueryHeatMap:
         lat_index = round(index_lat)
         return self.Lat[lat_index], self.Lon[long_index], self.Lat[lat_index+1], self.Lon[long_index+1]
 
-    def __init__(self, timestamp = 0):
+    def __init__(self, date = 0):
+        season, week, night = self.get_date_params(date)
+        filename = get_filename(season, week, night)
         self.heatmap = np.load('data.npy')
+
+    def get_date_params(self,date):
+        night = False
+        week = False
+        season = 1
+        if (date.hour) > 18: 
+            night = True
+        # week-end
+        if (date.day > 5):
+            week = True
+        # Season    
+        month = date.month
+        if (month < 3): 
+            season = 1
+        elif (month < 6): 
+            season = 2
+        elif (month < 9):
+            season =3 
+        else: 
+            season = 4 
+        return season, week, night 
 
     def query_heatmap(self,lat, long): 
         index_lat, index_long = self.lat_long_to_indexs(lat,long)
@@ -100,3 +123,51 @@ class QueryHeatMap:
 
     def get_heatmap(self):
         return self.heatmap
+
+
+    def get_filename(self, season, week, night):
+        if season == 1: 
+            if week: 
+                if night:
+                    res="printemps/week/day"
+                else:
+                    res="printemps/week/night"
+            else: 
+                if night:
+                    res="printemps/wend/day"
+                else:
+                    res="/wend/night"
+        elif season == 2: 
+            if week: 
+                if night:
+                    res="ete/week/day"
+                else:
+                    res="ete/week/night"
+            else: 
+                if night:
+                    res="ete/wend/day"
+                else:
+                    res="ete/wend/night"
+        elif season == 3:
+            if week: 
+                if night:
+                    res="automne/week/day"
+                else:
+                    res="automne/week/night"
+            else: 
+                if night:
+                    res="automne/wend/day"
+                else:
+                    res="automne/wend/night"
+        elif season == 4: 
+            if week: 
+                if night:
+                    res="hiver/week/day"
+                else:
+                    res="iver/week/night"
+            else: 
+                if night:
+                    res="/wend/day"
+                else:
+                    res="hiver/wend/night"
+        return f"{res}/data.npy"
