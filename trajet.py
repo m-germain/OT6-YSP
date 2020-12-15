@@ -151,9 +151,9 @@ def getBestPath(departure, arrival, minExcludeArea, threshold):
     for i in range(1, len(paths)+1):
         ##don't return a path which multiplies the distance by more than 1.5 
         if getPathLength(paths[len(paths) - i])<firstPathLength*1.5:
-            return (heatmap, firstPath, paths[len(paths) - i])
+            return (heatmap.get_heatmap(), firstPath, paths[len(paths) - i])
 
-    return (heatmap, firstPath, firstPath)
+    return (heatmap.get_heatmap(), firstPath, firstPath)
 
 
 if __name__ == "__main__":
