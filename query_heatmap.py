@@ -85,8 +85,8 @@ class QueryHeatMap:
 
     def __init__(self, date = 0):
         season, week, night = self.get_date_params(date)
-        filename = self.get_filename(season, week, night)
-        self.heatmap = np.load('data.npy')
+        filename = self.get_filename(1,1,0)
+        self.heatmap = np.load(filename)
 
     def get_date_params(self,date):
         night = False
@@ -164,7 +164,7 @@ class QueryHeatMap:
                 if night:
                     res="hiver/week/day"
                 else:
-                    res="iver/week/night"
+                    res="hiver/week/night"
             else: 
                 if night:
                     res="/wend/day"
