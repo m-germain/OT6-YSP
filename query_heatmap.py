@@ -85,7 +85,7 @@ class QueryHeatMap:
 
     def __init__(self, date = 0):
         season, week, night = self.get_date_params(date)
-        filename = get_filename(season, week, night)
+        filename = self.get_filename(season, week, night)
         self.heatmap = np.load('data.npy')
 
     def get_date_params(self,date):

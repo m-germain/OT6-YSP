@@ -7,6 +7,7 @@ from math import floor
 import numpy as np
 import pandas as pd
 from query_heatmap import QueryHeatMap
+from datetime import datetime
 
 api_key="uMo8ZVdrrdwrdMUAttOx6W0ms4cTCp0oS-EypFl3gNQ"
 
@@ -122,9 +123,9 @@ def getPathScore(path, heatmap):
         score += heatmap.query_heatmap(cell[0],cell[1])[0]
     return score
 
-def getBestPath(departure, arrival, minExcludeArea, threshold): 
+def getBestPath(departure, arrival, minExcludeArea, threshold, date): 
 
-    heatmap = QueryHeatMap()
+    heatmap = QueryHeatMap(date)
     maxDist= 0.1
     maxValue = heatmap.get_max_value()
     paths = []
@@ -162,7 +163,7 @@ if __name__ == "__main__":
     ptA = (45.786839, 4.879130)
     ptB = (45.782746, 4.878132)
     ptC = (45.764346, 4.863172)
-    path = getBestPath(ptA, ptC, None, 0.5)
+    path = getBestPath(ptA, ptC, None, 0.5, datetime.now())
     print(path[1])
     print(path[2])
 
